@@ -8,25 +8,43 @@ interface HeaderProps {
 
 export default function Header({ user, profile, signOut }: HeaderProps) {
   return (
-    <header className="border-b py-3" style={{backgroundColor: '#0a1f1f', borderColor: '#134040'}}>
+    <header className="border-b py-4" style={{backgroundColor: '#0a1f1f', borderColor: '#134040'}}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-white">Bolt<span style={{color: '#d4a574'}}>Cars</span></span>
+          <Link to="/" className="text-xl font-bold">
+            <span className="text-blue-500">Bolt</span>
+            <span style={{color: '#d4a574'}}>Cars</span>
           </Link>
           
-          <nav className="flex items-center gap-8 text-sm">
-            <Link to="/" className="text-gray-300 hover:text-white transition">Home</Link>
-            <Link to="/renter" className="text-gray-300 hover:text-white transition">Browse Cars</Link>
-            <Link to="/owner" className="text-gray-300 hover:text-white transition">List Car</Link>
-            <Link to="/auth" className="text-gray-300 hover:text-white transition">Contact</Link>
+          <nav className="flex items-center gap-8">
+            <Link to="/" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>🏠</span> Home
+            </Link>
+            <Link to="/about" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>ℹ️</span> About Us
+            </Link>
+            <Link to="/renter" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>🚗</span> Browse Cars
+            </Link>
+            <Link to="/owner" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>📋</span> List Car
+            </Link>
+            <Link to="/projects" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>📁</span> Projects
+            </Link>
+            <Link to="/shop" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>🛒</span> Shop
+            </Link>
+            <Link to="/contact" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <span>📞</span> Contact
+            </Link>
             {user ? (
-              <button onClick={signOut} className="px-4 py-2 rounded text-sm font-semibold" style={{backgroundColor: '#d4a574', color: '#0a1f1f'}}>
-                Sign Out
+              <button onClick={signOut} className="text-gray-300 hover:text-white transition flex items-center gap-2">
+                <span>👤</span> Sign Out
               </button>
             ) : (
-              <Link to="/auth" className="px-4 py-2 rounded text-sm font-semibold" style={{backgroundColor: '#d4a574', color: '#0a1f1f'}}>
-                Login
+              <Link to="/auth" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+                <span>👤</span> Login
               </Link>
             )}
           </nav>

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
-import { Link } from 'react-router-dom'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default function OwnerDashboard() {
-  const { profile, signOut } = useAuth()
+  const { user, profile, signOut } = useAuth()
   const [cars, setCars] = useState<any[]>([])
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({
@@ -42,52 +43,83 @@ export default function OwnerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-forest-900">
-      <nav className="bg-forest-800 border-b border-forest-700 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold">Bolt Cars</Link>
-          <button onClick={signOut} className="px-4 py-2 bg-red-600 rounded hover:bg-red-500">Sign Out</button>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-forest-900 flex flex-col">
+      <Header user={user} profile={profile} signOut={signOut} />
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">My Vehicles</h1>
-          <button onClick={() => setShowForm(!showForm)} className="px-6 py-2 bg-forest-600 rounded hover:bg-forest-500">
-            {showForm ? 'Cancel' : 'Add Vehicle'}
+      <main className="max-w-7xl mx-auto px-6 py-12 flex-grow">
+        <div className="flex justify-between items-center mb-10">
+          <div>
+            <h1 className="text-4xl font-bold text-white mb-2">My Vehicles</h1>
+            <p className="text-gray-400">Manage your listed vehicles and track approval status</p>
+          </div>
+          <button onClick={() => setShowForm(!showForm)} className="px-8 py-3 bg-forest-600 text-white rounded-lg hover:bg-forest-500 transition font-semibold shadow-lg">
+            {showForm ? 'Cancel' : '+ Add Vehicle'}
           </button>
         </div>
 
         {showForm && (
-          <form onSubmit={handleSubmit} className="bg-forest-800 p-6 rounded-lg border border-forest-700 mb-8">
-            <div className="grid md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Make" value={formData.make} onChange={(e) => setFormData({...formData, make: e.target.value})} className="px-4 py-2 bg-forest-700 border border-forest-600 rounded" required />
-              <input type="text" placeholder="Model" value={formData.model} onChange={(e) => setFormData({...formData, model: e.target.value})} className="px-4 py-2 bg-forest-700 border border-forest-600 rounded" required />
-              <input type="number" placeholder="Year" value={formData.year} onChange={(e) => setFormData({...formData, year: e.target.value})} className="px-4 py-2 bg-forest-700 border border-forest-600 rounded" required />
-              <input type="text" placeholder="License Plate" value={formData.license_plate} onChange={(e) => setFormData({...formData, license_plate: e.target.value})} className="px-4 py-2 bg-forest-700 border border-forest-600 rounded" required />
-              <input type="number" placeholder="Daily Rate ($)" value={formData.daily_rate} onChange={(e) => setFormData({...formData, daily_rate: e.target.value})} className="px-4 py-2 bg-forest-700 border border-forest-600 rounded" required />
+          <form onSubmit={handleSubmit} className="bg-forest-800 p-8 rounded-xl border-2 border-forest-700 mb-10 shadow-xl">
+            <h3 className="text-2xl font-bold mb-6 text-white">Add New Vehicle</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-300">Make</label>
+                <input type="text" placeholder="e.g., Toyota" value={formData.make} onChange={(e) => setFormData({...formData, make: e.target.value})} className="w-full px-4 py-3 bg-forest-700 border-2 border-forest-600 rounded-lg text-white focus:border-forest-500 focus:outline-none" required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-300">Model</label>
+                <input type="text" placeholder="e.g., Camry" value={formData.model} onChange={(e) => setFormData({...formData, model: e.target.value})} className="w-full px-4 py-3 bg-forest-700 border-2 border-forest-600 rounded-lg text-white focus:border-forest-500 focus:outline-none" required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-300">Year</label>
+                <input type="number" placeholder="e.g., 2022" value={formData.year} onChange={(e) => setFormData({...formData, year: e.target.value})} className="w-full px-4 py-3 bg-forest-700 border-2 border-forest-600 rounded-lg text-white focus:border-forest-500 focus:outline-none" required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-300">License Plate</label>
+                <input type="text" placeholder="e.g., ABC-123" value={formData.license_plate} onChange={(e) => setFormData({...formData, license_plate: e.target.value})} className="w-full px-4 py-3 bg-forest-700 border-2 border-forest-600 rounded-lg text-white focus:border-forest-500 focus:outline-none" required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-300">Daily Rate ($)</label>
+                <input type="number" placeholder="e.g., 50" value={formData.daily_rate} onChange={(e) => setFormData({...formData, daily_rate: e.target.value})} className="w-full px-4 py-3 bg-forest-700 border-2 border-forest-600 rounded-lg text-white focus:border-forest-500 focus:outline-none" required />
+              </div>
             </div>
-            <button type="submit" className="mt-4 px-6 py-2 bg-forest-600 rounded hover:bg-forest-500">Submit for Approval</button>
+            <button type="submit" className="mt-6 px-8 py-3 bg-forest-600 text-white rounded-lg hover:bg-forest-500 transition font-semibold">Submit for Approval</button>
           </form>
         )}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cars.map(car => (
-            <div key={car.id} className="bg-forest-800 p-6 rounded-lg border border-forest-700">
-              <h3 className="text-xl font-bold mb-2">{car.make} {car.model}</h3>
-              <p className="text-gray-300">Year: {car.year}</p>
-              <p className="text-gray-300">License: {car.license_plate}</p>
-              <p className="text-gray-300">Rate: ${car.daily_rate}/day</p>
-              <span className={`inline-block mt-3 px-3 py-1 rounded text-sm ${
-                car.status === 'approved' ? 'bg-green-600' : 
-                car.status === 'pending' ? 'bg-yellow-600' : 'bg-red-600'
-              }`}>
-                {car.status}
-              </span>
-            </div>
-          ))}
-        </div>
+        {cars.length === 0 ? (
+          <div className="text-center py-20 bg-forest-800 rounded-xl border-2 border-forest-700">
+            <svg className="w-20 h-20 mx-auto text-gray-600 mb-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+              <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"/>
+            </svg>
+            <h3 className="text-2xl font-bold text-gray-400 mb-2">No vehicles listed yet</h3>
+            <p className="text-gray-500">Click "Add Vehicle" to list your first car</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cars.map(car => (
+              <div key={car.id} className="bg-forest-800 p-6 rounded-xl border-2 border-forest-700 hover:border-forest-600 transition shadow-xl">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-2xl font-bold text-white">{car.make} {car.model}</h3>
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    car.status === 'approved' ? 'bg-green-600 text-white' : 
+                    car.status === 'pending' ? 'bg-yellow-600 text-white' : 'bg-red-600 text-white'
+                  }`}>
+                    {car.status}
+                  </span>
+                </div>
+                <div className="space-y-2 text-gray-300">
+                  <p><span className="font-semibold">Year:</span> {car.year}</p>
+                  <p><span className="font-semibold">License:</span> {car.license_plate}</p>
+                  <p className="text-2xl font-bold text-forest-400 mt-4">${car.daily_rate}<span className="text-sm text-gray-400">/day</span></p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </main>
+
+      <Footer />
     </div>
   )
 }

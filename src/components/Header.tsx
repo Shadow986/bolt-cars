@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Home, Info, Car, FileText, FolderOpen, ShoppingCart, Phone, User } from 'lucide-react'
+import { Home, Info, Briefcase, Building, Hammer, FolderOpen, ShoppingCart, Phone, User } from 'lucide-react'
 
 interface HeaderProps {
   user?: any
@@ -9,43 +9,50 @@ interface HeaderProps {
 
 export default function Header({ user, profile, signOut }: HeaderProps) {
   return (
-    <header className="border-b py-4" style={{backgroundColor: '#0a1f1f', borderColor: '#134040'}}>
+    <header className="py-5" style={{backgroundColor: '#0a1f1f', borderBottom: '1px solid #134040'}}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold">
-            <span className="text-blue-500">Bolt</span>
-            <span style={{color: '#d4a574'}}>Cars</span>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <span className="text-2xl font-bold">
+              <span className="text-blue-500">Bolt</span>
+              <span style={{color: '#d4a574'}}>Cars</span>
+            </span>
           </Link>
           
-          <nav className="flex items-center gap-6">
+          {/* Navigation Menu */}
+          <nav className="flex items-center gap-8 text-sm">
             <Link to="/" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <Home size={18} /> Home
+              <Home size={16} /> Home
             </Link>
             <Link to="/about" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <Info size={18} /> About Us
+              <Info size={16} /> About Us
             </Link>
-            <Link to="/renter" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <Car size={18} /> Browse Cars
+            <Link to="/services" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <Briefcase size={16} /> Services
             </Link>
             <Link to="/owner" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <FileText size={18} /> List Car
+              <Building size={16} /> List Car
+            </Link>
+            <Link to="/renter" className="text-gray-300 hover:text-white transition flex items-center gap-2">
+              <Hammer size={16} /> Browse Cars
             </Link>
             <Link to="/projects" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <FolderOpen size={18} /> Projects
+              <FolderOpen size={16} /> Projects
             </Link>
             <Link to="/shop" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <ShoppingCart size={18} /> Shop
+              <ShoppingCart size={16} /> Shop
             </Link>
             <Link to="/contact" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-              <Phone size={18} /> Contact
+              <Phone size={16} /> Contact
             </Link>
             {user ? (
               <button onClick={signOut} className="text-gray-300 hover:text-white transition flex items-center gap-2">
-                <User size={18} /> Sign Out
+                <User size={16} /> Logout
               </button>
             ) : (
               <Link to="/auth" className="text-gray-300 hover:text-white transition flex items-center gap-2">
-                <User size={18} /> Login
+                <User size={16} /> Login
               </Link>
             )}
           </nav>

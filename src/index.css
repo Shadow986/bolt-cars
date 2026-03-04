@@ -20,7 +20,7 @@
 }
 
 body {
-  background-color: var(--color-forest-900);
+  background-color: #0a1f1f !important;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }

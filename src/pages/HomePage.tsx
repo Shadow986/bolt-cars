@@ -7,7 +7,7 @@ export default function HomePage() {
   const { user, profile, signOut } = useAuth()
 
   return (
-    <div className="min-h-screen bg-forest-900 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{backgroundColor: '#0a1f1f'}}>
       <Header user={user} profile={profile} signOut={signOut} />
 
       {/* Hero Section */}
